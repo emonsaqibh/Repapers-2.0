@@ -28,8 +28,6 @@ export function WallpaperDetail({
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
-  // --- MODIFIED CODE: Safely get all data from your new structure ---
-  // Provide default fallbacks to prevent crashes if data is missing.
   if (!wallpaper) {
     return (
         <div className="min-h-screen bg-background flex items-center justify-center">
@@ -48,21 +46,51 @@ export function WallpaperDetail({
   const category = wallpaper.category || 'N/A';
   const downloadOptions = wallpaper.download_options || [];
 
-  // Use the highest resolution image available for the main preview
   const mainImage = downloadOptions.length > 0 ? downloadOptions[downloadOptions.length - 1].path : '';
   const mainResolution = downloadOptions.length > 0 ? downloadOptions[downloadOptions.length - 1].resolution : 'N/A';
   
-  // State for the selected download size, default to the highest res
   const [downloadSize, setDownloadSize] = useState(mainResolution);
-  // --- END OF MODIFIED CODE ---
 
+  // --- NEW DOWNLOAD FUNCTION ---
   const handleDownload = async () => {
     if (!isAuthenticated) return;
+
+    const selectedOption = downloadOptions.find(option => option.resolution === downloadSize);
+    if (!selectedOption || !selectedOption.path) {
+      console.error('Selected resolution not found or has no path.');
+      alert('Sorry, this download is not available.');
+      return;
+    }
+
     setDownloading(true);
-    setTimeout(() => {
+    try {
+      // Fetch the image as a blob
+      const response = await fetch(selectedOption.path);
+      const blob = await response.blob();
+      
+      // Create a temporary URL for the blob
+      const url = window.URL.createObjectURL(blob);
+      
+      // Create a temporary link element to trigger the download
+      const a = document.createElement('a');
+      const fileExtension = selectedOption.path.split('.').pop();
+      const fileName = `${title.replace(/\s+/g, '_')}_${downloadSize}.${fileExtension}`;
+      
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      
+      // Clean up
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert('An error occurred while trying to download the file.');
+    } finally {
       setDownloading(false);
-      console.log(`Downloading ${title} in ${downloadSize}`);
-    }, 2000);
+    }
   };
 
   const handleShare = async () => {
@@ -79,13 +107,11 @@ export function WallpaperDetail({
     }
   };
   
-  // This is still mock data, can be made dynamic later
   const relatedWallpapers = [];
 
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <Button variant="ghost" onClick={onBack} className="flex items-center gap-2">
             <ArrowLeft className="w-4 h-4" />
@@ -101,9 +127,7 @@ export function WallpaperDetail({
             </Button>
           </div>
         </div>
-
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Image Preview */}
           <div className="space-y-4">
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }}>
               <Card className="overflow-hidden">
@@ -114,8 +138,6 @@ export function WallpaperDetail({
                 </CardContent>
               </Card>
             </motion.div>
-
-            {/* Image Stats */}
             <div className="grid grid-cols-3 gap-4">
               <Card><CardContent className="p-4 text-center">
                 <div className="flex items-center justify-center mb-2"><Eye className="w-5 h-5 text-muted-foreground" /></div>
@@ -134,8 +156,6 @@ export function WallpaperDetail({
               </CardContent></Card>
             </div>
           </div>
-
-          {/* Details and Download */}
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold mb-4">{title}</h1>
@@ -150,7 +170,6 @@ export function WallpaperDetail({
                 </div>
               </div>
             </div>
-
             <div>
               <h3 className="font-medium mb-2">Tags</h3>
               <div className="flex flex-wrap gap-2">
