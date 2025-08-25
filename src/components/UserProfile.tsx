@@ -5,6 +5,7 @@ import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
+import { Switch } from './ui/switch'; // <-- This is the missing import that has been added
 import { 
   User, 
   Heart, 
@@ -18,7 +19,6 @@ import {
   Link,
   Camera,
   LogOut,
-  Palette,
   Trash2
 } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -52,7 +52,6 @@ export function UserProfile({
     website: user.website || ''
   });
   
-  // This useEffect ensures the form resets if the user prop changes
   useEffect(() => {
     setEditedProfile({
       name: user.name || 'Anonymous',
@@ -63,15 +62,11 @@ export function UserProfile({
   }, [user]);
 
   const handleSaveProfile = () => {
-    // In a real app, you would save this to a backend.
-    // For now, we just update the local view.
     console.log('Profile updated:', editedProfile);
-    // You could also update the main user object here if needed, e.g., setCurrentUser(editedProfile)
     setIsEditing(false);
   };
   
   const handleCancelEdit = () => {
-    // Reset form to original user data
     setEditedProfile({
       name: user.name || 'Anonymous',
       bio: user.bio || 'Wallpaper enthusiast and designer',
@@ -101,7 +96,6 @@ export function UserProfile({
                 </div>
                 <div className="flex-1">
                   {isEditing ? (
-                    // EDITING VIEW
                     <div className="space-y-4">
                       <div>
                         <Label htmlFor="name">Name</Label>
@@ -127,7 +121,6 @@ export function UserProfile({
                       </div>
                     </div>
                   ) : (
-                    // NORMAL VIEW
                     <div>
                       <div className="flex items-center justify-between mb-4">
                         <h1 className="text-3xl font-bold">{editedProfile.name}</h1>
