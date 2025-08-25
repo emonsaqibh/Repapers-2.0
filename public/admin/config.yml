@@ -9,27 +9,25 @@ collections:
   - name: "wallpapers"
     label: "Wallpapers"
     files:
-      - label: "Wallpapers" # The label for the file you are editing
-        name: "all_wallpapers" # A unique name for the file entry
-        file: "public/wallpapers.json" # The path to the file
-        # This part is now corrected. It tells the CMS that the entire file is a list.
+      - label: "Wallpapers"
+        name: "all_wallpapers"
+        file: "public/wallpapers.json"
         widget: "list"
-        fields: # These are the fields for EACH item in the list
-          - {label: "ID", name: "id", widget: "string", hint: "A unique ID, e.g., nature001"}
-          - {label: "Title", name: "title", widget: "string"}
-          - label: "Author"
-            name: "author"
-            widget: "object"
+        fields:
+          - {name: id, label: ID, widget: string, hint: "A unique ID, e.g., nature001"}
+          - {name: title, label: Title, widget: string}
+          - name: author
+            label: Author
+            widget: object
             fields:
-              - {label: "Author Name", name: "name", widget: "string"}
-              - {label: "Author Title", name: "title", widget: "string"}
-          - {label: "Upload Date", name: "upload_date", widget: "datetime", default: "", format: "YYYY-MM-DD", hidden: true}
-          - {label: "Category", name: "category", widget: "string"}
-          - {label: "Tags", name: "tags", widget: "list", hint: "Press enter after each tag"}
-          - label: "Download Options"
-            name: "download_options"
+              - {name: name, label: "Author Name", widget: string}
+              - {name: title, label: "Author Title", widget: string}
+          - {name: category, label: Category, widget: string}
+          - {name: tags, label: Tags, widget: list, hint: "Press enter after each tag"}
+          - name: download_options
+            label: "Download Options"
             widget: "list"
             summary: "{{fields.resolution}} | {{fields.path}}"
             fields:
-              - {label: "Resolution", name: "resolution", widget: "select", options: ["1080p", "2K", "4K", "8K", "Mobile"]}
-              - {label: "File", name: "path", widget: "file"}
+              - {name: resolution, label: Resolution, widget: select, options: ["1080p", "2K", "4K", "8K", "Mobile"]}
+              - {name: path, label: "File (Upload Here)", widget: file}
