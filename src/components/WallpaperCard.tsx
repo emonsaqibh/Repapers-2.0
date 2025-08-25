@@ -20,14 +20,27 @@ export function WallpaperCard({
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  // --- MODIFIED CODE: Safely get data from your new structure ---
+  const authorName = wallpaper.author?.name || 'Unknown Artist';
+  const title = wallpaper.title || 'Untitled';
+  const tags = wallpaper.tags || [];
+  const downloads = wallpaper.stats?.downloads || 0;
+  const likes = wallpaper.stats?.likes || 0;
+  const uploadDate = wallpaper.upload_date;
+  
+  // Use the first available download option as the display image
+  const displayImage = wallpaper.download_options?.[0]?.path || '';
+  const resolution = wallpaper.download_options?.[0]?.resolution || 'N/A';
+  // --- END OF MODIFIED CODE ---
+
   const handleDownload = (e) => {
     e.stopPropagation();
     if (!isAuthenticated) {
       // Show login prompt
       return;
     }
-    // Trigger download
-    console.log('Downloading:', wallpaper.title);
+    // In a real app, you would loop through download_options here
+    console.log('Downloading:', title);
   };
 
   const handleFavorite = (e) => {
@@ -52,8 +65,8 @@ export function WallpaperCard({
             <div className="flex h-32">
               <div className="w-48 flex-shrink-0 relative overflow-hidden">
                 <ImageWithFallback
-                  src={wallpaper.url}
-                  alt={wallpaper.title}
+                  src={displayImage}
+                  alt={title}
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                   onLoad={() => setImageLoaded(true)}
                 />
@@ -64,27 +77,27 @@ export function WallpaperCard({
               
               <div className="flex-1 p-4 flex justify-between items-center min-w-0">
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-lg mb-2 truncate">{wallpaper.title}</h3>
+                  <h3 className="font-semibold text-lg mb-2 truncate">{title}</h3>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2 flex-wrap">
                     <div className="flex items-center gap-1">
                       <User className="w-4 h-4 flex-shrink-0" />
-                      <span className="truncate">{wallpaper.author}</span>
+                      <span className="truncate">{authorName}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Monitor className="w-4 h-4 flex-shrink-0" />
-                      <span>{wallpaper.resolution}</span>
+                      <span>{resolution}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Download className="w-4 h-4 flex-shrink-0" />
-                      <span>{wallpaper.downloads.toLocaleString()}</span>
+                      <span>{downloads.toLocaleString()}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Heart className="w-4 h-4 flex-shrink-0" />
-                      <span>{wallpaper.likes.toLocaleString()}</span>
+                      <span>{likes.toLocaleString()}</span>
                     </div>
                   </div>
                   <div className="flex gap-1 flex-wrap">
-                    {wallpaper.tags.slice(0, 3).map(tag => (
+                    {tags.slice(0, 3).map(tag => (
                       <Badge key={tag} variant="secondary" className="text-xs">
                         {tag}
                       </Badge>
@@ -132,8 +145,8 @@ export function WallpaperCard({
         <CardContent className="p-0">
           <AspectRatio ratio={3/4} className="relative overflow-hidden">
             <ImageWithFallback
-              src={wallpaper.url}
-              alt={wallpaper.title}
+              src={displayImage}
+              alt={title}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               onLoad={() => setImageLoaded(true)}
             />
@@ -142,7 +155,6 @@ export function WallpaperCard({
               <div className="absolute inset-0 bg-muted animate-pulse" />
             )}
 
-            {/* Overlay with actions */}
             <div className={`absolute inset-0 bg-black/60 transition-opacity duration-300 ${
               isHovered ? 'opacity-100' : 'opacity-0'
             }`}>
@@ -162,16 +174,16 @@ export function WallpaperCard({
                 <div className="flex justify-between items-end">
                   <div className="text-white">
                     <Badge className="mb-1 bg-white/20 text-white border-0">
-                      {wallpaper.resolution}
+                      {resolution}
                     </Badge>
                     <div className="flex items-center gap-2 text-xs text-white/80">
                       <div className="flex items-center gap-1">
                         <Download className="w-3 h-3" />
-                        {wallpaper.downloads.toLocaleString()}
+                        {downloads.toLocaleString()}
                       </div>
                       <div className="flex items-center gap-1">
                         <Heart className="w-3 h-3" />
-                        {wallpaper.likes.toLocaleString()}
+                        {likes.toLocaleString()}
                       </div>
                     </div>
                   </div>
@@ -203,30 +215,34 @@ export function WallpaperCard({
           </AspectRatio>
           
           <div className="p-4">
-            <h3 className="font-semibold truncate mb-2">{wallpaper.title}</h3>
+            <h3 className="font-semibold truncate mb-2">{title}</h3>
             <div className="flex items-center justify-between text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Avatar className="w-5 h-5">
-                  <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${wallpaper.author}`} />
-                  <AvatarFallback>{wallpaper.author.charAt(0)}</AvatarFallback>
+                  <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${authorName}`} />
+                  <AvatarFallback>{authorName.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <span className="truncate">{wallpaper.author}</span>
+                <span className="truncate">{authorName}</span>
               </div>
               <div className="flex items-center gap-1">
-                <Calendar className="w-3 h-3" />
-                <span>{new Date(wallpaper.uploadDate).toLocaleDateString()}</span>
+                {uploadDate && (
+                  <>
+                    <Calendar className="w-3 h-3" />
+                    <span>{new Date(uploadDate).toLocaleDateString()}</span>
+                  </>
+                )}
               </div>
             </div>
             
             <div className="flex gap-1 mt-2">
-              {wallpaper.tags.slice(0, 2).map(tag => (
+              {tags.slice(0, 2).map(tag => (
                 <Badge key={tag} variant="secondary" className="text-xs">
                   {tag}
                 </Badge>
               ))}
-              {wallpaper.tags.length > 2 && (
+              {tags.length > 2 && (
                 <Badge variant="outline" className="text-xs">
-                  +{wallpaper.tags.length - 2}
+                  +{tags.length - 2}
                 </Badge>
               )}
             </div>
