@@ -3,12 +3,12 @@
   "name": "test cat",
   "categories": [
     {
-      "id": "new test",
-      "name": "test"
+      "id": "new testy",
+      "name": "testy"
     },
     {
-      "id": "old cat",
-      "name": "test"
+      "id": "old caty",
+      "name": "testy"
     }
   ]
 }
