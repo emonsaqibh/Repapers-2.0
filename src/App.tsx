@@ -37,12 +37,12 @@ export default function App() {
   useEffect(() => {
     fetch('/wallpapers.json')
       .then(res => res.json())
-      .then(data => setWallpapers(data))
+      // THIS IS THE CORRECTED LINE: We now get the array from data.wallpapers
+      .then(data => setWallpapers(data.wallpapers))
       .catch(error => console.error('Error fetching wallpapers:', error));
 
     fetch('/categories.json')
       .then(res => res.json())
-      // THIS IS THE CORRECTED LINE: We now get the array from data.categories
       .then(data => setCategories(data.categories))
       .catch(error => console.error('Error fetching categories:', error));
   }, []);
