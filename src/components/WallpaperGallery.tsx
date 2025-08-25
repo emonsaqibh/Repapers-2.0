@@ -147,4 +147,20 @@ export function WallpaperGallery({ wallpapers, onWallpaperSelect, favorites, onT
       {/* Results Header */}
       <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-medium">
-            {
+            {selectedCategory === 'all' ? 'All Wallpapers' : 
+             categories.find(c => c.id === selectedCategory)?.name}
+          </h3>
+          <Badge variant="secondary">
+            {sortedWallpapers.length} wallpapers
+          </Badge>
+      </div>
+
+      {/* Wallpaper Grid */}
+      <div className={`grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6`}>
+        {sortedWallpapers.map(wallpaper => (
+          <WallpaperCard
+            key={wallpaper.id}
+            wallpaper={wallpaper}
+            onSelect={() => handleWallpaperClick(wallpaper)}
+            onToggleFavorite={() => onToggleFavorite(wallpaper.id)}
+            isFavorite={favorites.includes(wallpaper.id)}
