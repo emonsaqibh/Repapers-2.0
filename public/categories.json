@@ -1,14 +1,16 @@
-[
-  {
-    "id": "nature",
-    "name": "Nature"
-  },
-  {
-    "id": "abstract",
-    "name": "Abstract"
-  },
-  {
-    "id": "character",
-    "name": "Character"
-  }
-]
+{
+  "categories": [
+    {
+      "id": "nature",
+      "name": "Nature"
+    },
+    {
+      "id": "abstract",
+      "name": "Abstract"
+    },
+    {
+      "id": "character",
+      "name": "Character"
+    }
+  ]
+}
