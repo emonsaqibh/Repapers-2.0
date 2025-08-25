@@ -25,42 +25,45 @@ import {
   Palette
 } from 'lucide-react';
 
-// The component now accepts 'wallpapers' as a prop
 export function WallpaperGallery({ wallpapers, onWallpaperSelect, favorites, onToggleFavorite, isAuthenticated }) {
   const [viewMode, setViewMode] = useState('grid');
   const [gridSize, setGridSize] = useState('medium');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('trending');
-  const [imageViewerOpen, setImageViewerOpen] = useState(false);
-  const [selectedWallpaperIndex, setSelectedWallpaperIndex] = useState(0);
 
   const categories = [
     { id: 'all', name: 'All', icon: Palette },
     { id: 'nature', name: 'Nature', icon: Trees },
     { id: 'abstract', name: 'Abstract', icon: Shapes },
+    { id: 'character', name: 'Character', icon: Palette }, // Added Character category
     { id: 'landscape', name: 'Landscape', icon: Mountain },
     { id: 'city', name: 'City', icon: Building2 },
     { id: 'space', name: 'Space', icon: Sparkles },
     { id: 'animals', name: 'Animals', icon: Cat },
     { id: 'technology', name: 'Technology', icon: Laptop },
     { id: 'minimalist', name: 'Minimalist', icon: Circle },
-    { id: 'artistic', name: 'Artistic', icon: Palette }
   ];
 
   const filteredWallpapers = wallpapers.filter(wallpaper => {
-    const matchesCategory = selectedCategory === 'all' || wallpaper.category.toLowerCase() === selected_category;
-    const matchesSearch = wallpaper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    // FIX: Safely handle missing category or tags
+    const categoryLower = wallpaper.category?.toLowerCase() || '';
+    const matchesCategory = selectedCategory === 'all' || categoryLower === selectedCategory;
+    
+    const titleLower = wallpaper.title?.toLowerCase() || '';
+    const matchesSearch = titleLower.includes(searchQuery.toLowerCase()) ||
                          (wallpaper.tags && wallpaper.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())));
+    
     return matchesCategory && matchesSearch;
   });
 
   const sortedWallpapers = [...filteredWallpapers].sort((a, b) => {
+    // FIX: Safely handle missing stats or upload_date
     switch (sortBy) {
       case 'trending':
         return (b.stats?.downloads || 0) - (a.stats?.downloads || 0);
       case 'newest':
-        return new Date(b.upload_date) - new Date(a.upload_date);
+        return new Date(b.upload_date || 0).getTime() - new Date(a.upload_date || 0).getTime();
       case 'popular':
         return (b.stats?.likes || 0) - (a.stats?.likes || 0);
       default:
@@ -161,7 +164,7 @@ export function WallpaperGallery({ wallpapers, onWallpaperSelect, favorites, onT
             onToggleFavorite={() => onToggleFavorite(wallpaper.id)}
             isFavorite={favorites.includes(wallpaper.id)}
             isAuthenticated={isAuthenticated}
-          /> // <-- This closing tag was missing. It is now fixed.
+          />
         ))}
       </div>
 
