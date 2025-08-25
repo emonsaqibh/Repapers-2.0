@@ -14,6 +14,11 @@ export default function App() {
   const [selectedWallpaper, setSelectedWallpaper] = useState(null);
   const [favorites, setFavorites] = useState([]);
 
+  // ==========================================================
+  // === 1. NEW CODE ADDED HERE TO STORE YOUR WALLPAPERS ===
+  // ==========================================================
+  const [wallpapers, setWallpapers] = useState([]);
+
   useEffect(() => {
     // Check for stored auth state and theme preference
     const storedAuth = localStorage.getItem('isAuthenticated');
@@ -32,6 +37,22 @@ export default function App() {
       setFavorites(JSON.parse(storedFavorites));
     }
   }, []);
+
+  // =============================================================
+  // === 2. NEW CODE ADDED HERE TO FETCH YOUR WALLPAPERS.JSON ===
+  // =============================================================
+  useEffect(() => {
+    fetch('/wallpapers.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => setWallpapers(data))
+      .catch(error => console.error('Error fetching wallpapers:', error));
+  }, []); // The empty array ensures this effect runs only once on mount
+
 
   useEffect(() => {
     // Apply dark mode class to document
@@ -94,6 +115,8 @@ export default function App() {
       case 'gallery':
         return (
           <WallpaperGallery
+            // This line was changed to pass the loaded wallpapers
+            wallpapers={wallpapers} 
             onWallpaperSelect={handleWallpaperSelect}
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
@@ -114,7 +137,8 @@ export default function App() {
         return (
           <UserProfile
             user={currentUser}
-            favorites={favorites}
+            // We need to pass the full wallpaper objects for the favorites view
+            favoriteWallpapers={wallpapers.filter(w => favorites.includes(w.id))}
             onWallpaperSelect={handleWallpaperSelect}
             onViewChange={setCurrentView}
             activeTab={profileTab}
