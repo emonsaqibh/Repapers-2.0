@@ -58,5 +58,5 @@ export default function App() {
   // ... (rest of your App.tsx component)
   return (
     // ...
-  );
+  )=>
 }
