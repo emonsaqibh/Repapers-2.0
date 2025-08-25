@@ -14,10 +14,9 @@ export default function App() {
   const [selectedWallpaper, setSelectedWallpaper] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [wallpapers, setWallpapers] = useState([]);
-  const [categories, setCategories] = useState([]); // State for dynamic categories
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    // Check for stored auth state and theme preference
     const storedAuth = localStorage.getItem('isAuthenticated');
     const storedUser = localStorage.getItem('currentUser');
     const storedTheme = localStorage.getItem('isDarkMode');
@@ -36,21 +35,19 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // Fetch wallpapers
     fetch('/wallpapers.json')
       .then(res => res.json())
       .then(data => setWallpapers(data))
       .catch(error => console.error('Error fetching wallpapers:', error));
 
-    // Fetch categories
     fetch('/categories.json')
       .then(res => res.json())
-      .then(data => setCategories(data))
+      // THIS IS THE CORRECTED LINE: We now get the array from data.categories
+      .then(data => setCategories(data.categories))
       .catch(error => console.error('Error fetching categories:', error));
   }, []);
 
   useEffect(() => {
-    // Apply dark mode class to document
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
     } else {
