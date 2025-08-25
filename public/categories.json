@@ -13,8 +13,12 @@
       "name": "Character"
     },
     {
-      "id": "anime",
-      "name": "anime"
+      "id": "Anime",
+      "name": "Anime"
+    },
+    {
+      "id": "AI Generated",
+      "name": "AI generated"
     }
   ]
 }
