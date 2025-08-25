@@ -1,31 +1,24 @@
-[
-  {
-    "id": "space001",
-    "title": "Nebula's Embrace",
-    "author": {
-      "name": "Emma Wilson",
-      "title": "Digital Artist"
-    },
-    "stats": {
-      "downloads": 0,
-      "likes": 0
-    },
-    "upload_date": "2025-08-25",
-    "category": "Space",
-    "tags": [
-      "space",
-      "galaxy",
-      "stars"
-    ],
-    "download_options": [
-      {
-        "resolution": "4K",
-        "path": "/images/uploads/nebula-embrace-4k.jpg"
+{
+  "wallpapers": [
+    {
+      "id": "spoace001",
+      "title": "Nebula's Embrace",
+      "author": {
+        "name": "Emma Wilson",
+        "title": "Digital Artist"
       },
-      {
-        "resolution": "8K",
-        "path": "/images/uploads/nebula-embrace-8k.jpg"
-      }
-    ]
-  }
-]
+      "category": "space",
+      "tags": [
+        "space",
+        "galaxy",
+        "stars"
+      ],
+      "download_options": [
+        {
+          "resolution": "4K",
+          "path": "/images/uploads/nebula-embrace-4k.jpg"
+        }
+      ]
+    }
+  ]
+}
