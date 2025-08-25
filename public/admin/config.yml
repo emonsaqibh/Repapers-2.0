@@ -6,33 +6,30 @@ media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-  - name: "wallpapers" # This is the collection name
-    label: "Wallpapers" # This is what you see in the UI
-    files: # This was the part that was incorrect, it is now correct
-      - label: "All Wallpapers"
-        name: "all_wallpapers"
-        file: "public/wallpapers.json" # The path to the file we are editing
-        fields:
-          # This 'list' widget tells the CMS to edit the items inside the JSON array
-          - label: "Wallpaper Entries"
-            name: "wallpaper_entries"
+  - name: "wallpapers"
+    label: "Wallpapers"
+    files:
+      - label: "Wallpapers" # The label for the file you are editing
+        name: "all_wallpapers" # A unique name for the file entry
+        file: "public/wallpapers.json" # The path to the file
+        # This part is now corrected. It tells the CMS that the entire file is a list.
+        widget: "list"
+        fields: # These are the fields for EACH item in the list
+          - {label: "ID", name: "id", widget: "string", hint: "A unique ID, e.g., nature001"}
+          - {label: "Title", name: "title", widget: "string"}
+          - label: "Author"
+            name: "author"
+            widget: "object"
+            fields:
+              - {label: "Author Name", name: "name", widget: "string"}
+              - {label: "Author Title", name: "title", widget: "string"}
+          - {label: "Upload Date", name: "upload_date", widget: "datetime", default: "", format: "YYYY-MM-DD", hidden: true}
+          - {label: "Category", name: "category", widget: "string"}
+          - {label: "Tags", name: "tags", widget: "list", hint: "Press enter after each tag"}
+          - label: "Download Options"
+            name: "download_options"
             widget: "list"
-            fields: # These are the fields for EACH wallpaper entry
-              - {label: "ID", name: "id", widget: "string", hint: "A unique ID, e.g., nature001"}
-              - {label: "Title", name: "title", widget: "string"}
-              - label: "Author"
-                name: "author"
-                widget: "object"
-                fields:
-                  - {label: "Author Name", name: "name", widget: "string"}
-                  - {label: "Author Title", name: "title", widget: "string"}
-              - {label: "Upload Date", name: "upload_date", widget: "datetime", default: "", format: "YYYY-MM-DD", hidden: true}
-              - {label: "Category", name: "category", widget: "string"}
-              - {label: "Tags", name: "tags", widget: "list", hint: "Press enter after each tag"}
-              - label: "Download Options"
-                name: "download_options"
-                widget: "list"
-                summary: "{{fields.resolution}} | {{fields.path}}"
-                fields:
-                  - {label: "Resolution", name: "resolution", widget: "select", options: ["1080p", "2K", "4K", "8K", "Mobile"]}
-                  - {label: "File", name: "path", widget: "file"}
+            summary: "{{fields.resolution}} | {{fields.path}}"
+            fields:
+              - {label: "Resolution", name: "resolution", widget: "select", options: ["1080p", "2K", "4K", "8K", "Mobile"]}
+              - {label: "File", name: "path", widget: "file"}
