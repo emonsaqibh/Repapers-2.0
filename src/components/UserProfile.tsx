@@ -23,11 +23,25 @@ import {
   Mail,
   MapPin,
   Link,
-  Camera
+  Camera,
+  LogOut,
+  Palette,
+  Trash2
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
-export function UserProfile({ user, favoriteWallpapers, onWallpaperSelect, onViewChange, activeTab = 'profile' }) {
+// The onLogout and onToggleTheme props were already being passed in, 
+// so we just need to add isDarkMode to know the current theme state.
+export function UserProfile({ 
+  user, 
+  favoriteWallpapers, 
+  onWallpaperSelect, 
+  onViewChange, 
+  activeTab = 'profile',
+  onLogout,
+  onToggleTheme,
+  isDarkMode 
+}) {
   const [currentTab, setCurrentTab] = useState(activeTab);
 
   if (!user) {
@@ -147,7 +161,61 @@ export function UserProfile({ user, favoriteWallpapers, onWallpaperSelect, onVie
             </TabsContent>
             
             <TabsContent value="settings" className="mt-6">
-              <p>Settings will be available soon.</p>
+              {/* --- NEW SETTINGS UI --- */}
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Appearance</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label htmlFor="dark-mode">Dark Mode</Label>
+                        <p className="text-sm text-muted-foreground">
+                          Enjoy a darker, more comfortable viewing experience.
+                        </p>
+                      </div>
+                      <Switch 
+                        id="dark-mode"
+                        checked={isDarkMode}
+                        onCheckedChange={onToggleTheme}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Account</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                     <Button variant="outline" onClick={onLogout}>
+                        <LogOut className="w-4 h-4 mr-2" />
+                        Sign Out
+                      </Button>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-red-600">Danger Zone</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-between p-4 border border-red-200 rounded-lg">
+                      <div>
+                        <h4 className="font-medium">Delete Account</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Permanently delete your account and all associated data.
+                        </p>
+                      </div>
+                      <Button variant="destructive" size="sm">
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </TabsContent>
           </Tabs>
         </motion.div>
