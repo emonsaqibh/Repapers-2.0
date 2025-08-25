@@ -35,7 +35,6 @@ export function WallpaperGallery({ wallpapers, onWallpaperSelect, favorites, onT
   const [imageViewerOpen, setImageViewerOpen] = useState(false);
   const [selectedWallpaperIndex, setSelectedWallpaperIndex] = useState(0);
 
-  // NOTE: The categories are still hardcoded for now. We can make this dynamic next.
   const categories = [
     { id: 'all', name: 'All', icon: Palette },
     { id: 'nature', name: 'Nature', icon: Trees },
@@ -49,30 +48,27 @@ export function WallpaperGallery({ wallpapers, onWallpaperSelect, favorites, onT
     { id: 'artistic', name: 'Artistic', icon: Palette }
   ];
 
-  // The 'wallpapers' variable below now comes directly from the props.
   const filteredWallpapers = wallpapers.filter(wallpaper => {
-    const matchesCategory = selectedCategory === 'all' || wallpaper.category.toLowerCase() === selectedCategory;
+    const matchesCategory = selectedCategory === 'all' || wallpaper.category.toLowerCase() === selected_category;
     const matchesSearch = wallpaper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         wallpaper.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+                         (wallpaper.tags && wallpaper.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())));
     return matchesCategory && matchesSearch;
   });
 
   const sortedWallpapers = [...filteredWallpapers].sort((a, b) => {
-    // NOTE: Sorting now uses the data structure from your CMS.
     switch (sortBy) {
       case 'trending':
-        return b.stats.downloads - a.stats.downloads;
+        return (b.stats?.downloads || 0) - (a.stats?.downloads || 0);
       case 'newest':
         return new Date(b.upload_date) - new Date(a.upload_date);
       case 'popular':
-        return b.stats.likes - a.stats.likes;
+        return (b.stats?.likes || 0) - (a.stats?.likes || 0);
       default:
         return 0;
     }
   });
 
   const handleWallpaperClick = (wallpaper) => {
-    // The onWallpaperSelect function (to show details) is now called directly.
     onWallpaperSelect(wallpaper);
   };
 
@@ -164,3 +160,16 @@ export function WallpaperGallery({ wallpapers, onWallpaperSelect, favorites, onT
             onSelect={() => handleWallpaperClick(wallpaper)}
             onToggleFavorite={() => onToggleFavorite(wallpaper.id)}
             isFavorite={favorites.includes(wallpaper.id)}
+            isAuthenticated={isAuthenticated}
+          /> // <-- This closing tag was missing. It is now fixed.
+        ))}
+      </div>
+
+      {sortedWallpapers.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">No wallpapers found matching your criteria.</p>
+        </div>
+      )}
+    </div>
+  );
+}
