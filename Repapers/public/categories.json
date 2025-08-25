@@ -1,4 +1,14 @@
 {
   "id": "Test",
-  "name": "test cat"
+  "name": "test cat",
+  "categories": [
+    {
+      "id": "new test",
+      "name": "test"
+    },
+    {
+      "id": "old cat",
+      "name": "test"
+    }
+  ]
 }
