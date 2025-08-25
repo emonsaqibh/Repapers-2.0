@@ -19,6 +19,28 @@
           "path": "/images/uploads/nebula-embrace-4k.jpg"
         }
       ]
+    },
+    {
+      "id": "002",
+      "title": "test wall",
+      "author": {
+        "name": "repaper",
+        "title": "admin"
+      },
+      "category": "anime",
+      "tags": [
+        "anime"
+      ],
+      "download_options": [
+        {
+          "resolution": "4K",
+          "path": "/images/uploads/wp4952002-4k-oled-wallpapers.jpg"
+        },
+        {
+          "resolution": "2K",
+          "path": "/images/uploads/beautiful-mountains-landscape.jpg"
+        }
+      ]
     }
   ]
 }
