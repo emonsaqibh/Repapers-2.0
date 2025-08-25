@@ -37,7 +37,6 @@ export default function App() {
   useEffect(() => {
     fetch('/wallpapers.json')
       .then(res => res.json())
-      // THIS IS THE CORRECTED LINE: We now get the array from data.wallpapers
       .then(data => setWallpapers(data.wallpapers))
       .catch(error => console.error('Error fetching wallpapers:', error));
 
@@ -133,6 +132,10 @@ export default function App() {
             onWallpaperSelect={handleWallpaperSelect}
             onViewChange={setCurrentView}
             activeTab={profileTab}
+            // --- THESE 3 PROPS HAVE BEEN ADDED ---
+            isDarkMode={isDarkMode}
+            onToggleTheme={toggleTheme}
+            onLogout={handleLogout}
           />
         );
       default:
