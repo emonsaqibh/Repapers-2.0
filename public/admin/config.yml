@@ -14,20 +14,49 @@ collections:
         file: "public/wallpapers.json"
         widget: "list"
         fields:
-          - {name: id, label: ID, widget: string, hint: "A unique ID, e.g., nature001"}
-          - {name: title, label: Title, widget: string}
+          - name: id
+            label: ID
+            widget: string
+            hint: "A unique ID, e.g., nature001"
+
+          - name: title
+            label: Title
+            widget: string
+
           - name: author
             label: Author
             widget: object
             fields:
-              - {name: name, label: "Author Name", widget: string}
-              - {name: title, label: "Author Title", widget: string}
-          - {name: category, label: Category, widget: string}
-          - {name: tags, label: Tags, widget: list, hint: "Press enter after each tag"}
+              - name: name
+                label: Author Name
+                widget: string
+              - name: title
+                label: Author Title
+                widget: string # The typo was here
+
+          - name: category
+            label: Category
+            widget: string
+
+          - name: tags
+            label: Tags
+            widget: list
+            hint: "Press enter after each tag"
+
           - name: download_options
-            label: "Download Options"
-            widget: "list"
+            label: Download Options
+            widget: list
             summary: "{{fields.resolution}} | {{fields.path}}"
             fields:
-              - {name: resolution, label: Resolution, widget: select, options: ["1080p", "2K", "4K", "8K", "Mobile"]}
-              - {name: path, label: "File (Upload Here)", widget: file}
+              - name: resolution
+                label: Resolution
+                widget: select
+                options:
+                  - 1080p
+                  - 2K
+                  - 4K
+                  - 8K
+                  - Mobile
+              - name: path
+                label: "File (Upload Here)"
+                widget: file
