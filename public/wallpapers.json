@@ -1,45 +1,75 @@
 {
   "wallpapers": [
     {
-      "id": "spoace001",
-      "title": "Nebula's Embrace",
-      "author": {
-        "name": "Emma Wilson",
-        "title": "Digital Artist"
-      },
-      "category": "space",
-      "tags": [
-        "space",
-        "galaxy",
-        "stars"
-      ],
+      "id": "001",
       "download_options": [
         {
           "resolution": "4K",
-          "path": "/images/uploads/nebula-embrace-4k.jpg"
+          "path": "/images/uploads/beautiful-mountains-landscape.jpg"
         }
+      ],
+      "title": "Landscape001",
+      "author": {
+        "name": "Reaper",
+        "title": "Designer"
+      },
+      "category": "nature",
+      "tags": [
+        "nature"
       ]
     },
     {
       "id": "002",
-      "title": "test wall",
-      "author": {
-        "name": "repaper",
-        "title": "admin"
-      },
-      "category": "anime",
-      "tags": [
-        "anime"
-      ],
       "download_options": [
         {
           "resolution": "4K",
-          "path": "/images/uploads/wp4952002-4k-oled-wallpapers.jpg"
-        },
-        {
-          "resolution": "2K",
-          "path": "/images/uploads/beautiful-mountains-landscape.jpg"
+          "path": "/images/uploads/wallpaperflare.com_wallpaper.jpg"
         }
+      ],
+      "title": "Spider001",
+      "author": {
+        "name": "Reaper",
+        "title": "Designer"
+      },
+      "category": "character",
+      "tags": [
+        "character"
+      ]
+    },
+    {
+      "download_options": [
+        {
+          "path": "/images/uploads/photorealistic-view-off-road-car-with-nature-terrain-weather-conditions.jpg",
+          "resolution": "4K"
+        }
+      ],
+      "id": "003",
+      "title": "Car001",
+      "author": {
+        "name": "Reaper",
+        "title": "Designer"
+      },
+      "category": "AI Generated",
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "download_options": [
+        {
+          "path": "/images/uploads/dreamlike-surrealistic-landscape-wallpaper-purple-tones.jpg",
+          "resolution": "4K"
+        }
+      ],
+      "id": "004",
+      "title": "landscape002",
+      "author": {
+        "name": "Reaper",
+        "title": "Designer"
+      },
+      "category": "nature",
+      "tags": [
+        "landscape"
       ]
     }
   ]
