@@ -11,6 +11,10 @@
     {
       "id": "character",
       "name": "Character"
+    },
+    {
+      "id": "anime",
+      "name": "anime"
     }
   ]
 }
