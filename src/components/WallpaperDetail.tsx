@@ -5,6 +5,7 @@ import { Card, CardContent } from './ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 import { Separator } from './ui/separator';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { MockupPreview } from './MockupPreview'; // Import the new component
 import { 
   ArrowLeft, 
   Download, 
@@ -14,7 +15,9 @@ import {
   Calendar, 
   Monitor, 
   User,
-  Check
+  Check,
+  Smartphone, // Added Smartphone icon
+  Laptop // Added Laptop icon
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -27,6 +30,7 @@ export function WallpaperDetail({
 }) {
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [mockupView, setMockupView] = useState(null); // State for mockup view
 
   if (!wallpaper) {
     return (
@@ -51,40 +55,28 @@ export function WallpaperDetail({
   
   const [downloadSize, setDownloadSize] = useState(mainResolution);
 
-  // --- NEW DOWNLOAD FUNCTION ---
   const handleDownload = async () => {
     if (!isAuthenticated) return;
-
     const selectedOption = downloadOptions.find(option => option.resolution === downloadSize);
     if (!selectedOption || !selectedOption.path) {
       console.error('Selected resolution not found or has no path.');
       alert('Sorry, this download is not available.');
       return;
     }
-
     setDownloading(true);
     try {
-      // Fetch the image as a blob
       const response = await fetch(selectedOption.path);
       const blob = await response.blob();
-      
-      // Create a temporary URL for the blob
       const url = window.URL.createObjectURL(blob);
-      
-      // Create a temporary link element to trigger the download
       const a = document.createElement('a');
       const fileExtension = selectedOption.path.split('.').pop();
       const fileName = `${title.replace(/\s+/g, '_')}_${downloadSize}.${fileExtension}`;
-      
       a.href = url;
       a.download = fileName;
       document.body.appendChild(a);
       a.click();
-      
-      // Clean up
       a.remove();
       window.URL.revokeObjectURL(url);
-
     } catch (error) {
       console.error('Download failed:', error);
       alert('An error occurred while trying to download the file.');
@@ -127,6 +119,7 @@ export function WallpaperDetail({
             </Button>
           </div>
         </div>
+
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="space-y-4">
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }}>
@@ -138,6 +131,18 @@ export function WallpaperDetail({
                 </CardContent>
               </Card>
             </motion.div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <Button variant="outline" onClick={() => setMockupView('desktop')}>
+                <Laptop className="w-4 h-4 mr-2" />
+                Desktop Preview
+              </Button>
+              <Button variant="outline" onClick={() => setMockupView('mobile')}>
+                <Smartphone className="w-4 h-4 mr-2" />
+                Mobile Preview
+              </Button>
+            </div>
+
             <div className="grid grid-cols-3 gap-4">
               <Card><CardContent className="p-4 text-center">
                 <div className="flex items-center justify-center mb-2"><Eye className="w-5 h-5 text-muted-foreground" /></div>
@@ -156,6 +161,7 @@ export function WallpaperDetail({
               </CardContent></Card>
             </div>
           </div>
+
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold mb-4">{title}</h1>
@@ -224,6 +230,14 @@ export function WallpaperDetail({
           </div>
         </div>
       </div>
+
+      {mockupView && (
+        <MockupPreview
+          wallpaperUrl={mainImage}
+          mockupType={mockupView}
+          onClose={() => setMockupView(null)}
+        />
+      )}
     </div>
   );
 }
