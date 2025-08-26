@@ -5,19 +5,8 @@ import { Card, CardContent } from './ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 import { Separator } from './ui/separator';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { MockupPreview } from './MockupPreview'; // Import the new component
 import { 
-  ArrowLeft, 
-  Download, 
-  Heart, 
-  Share2, 
-  Eye, 
-  Calendar, 
-  Monitor, 
-  User,
-  Check,
-  Smartphone, // Added Smartphone icon
-  Laptop // Added Laptop icon
+  ArrowLeft, Download, Heart, Share2, Eye, Calendar, Monitor, User, Check, Smartphone, Laptop 
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -26,11 +15,11 @@ export function WallpaperDetail({
   onBack, 
   onToggleFavorite, 
   isFavorite, 
-  isAuthenticated 
+  isAuthenticated,
+  onPreview
 }) {
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
-  const [mockupView, setMockupView] = useState(null); // State for mockup view
 
   if (!wallpaper) {
     return (
@@ -132,16 +121,10 @@ export function WallpaperDetail({
               </Card>
             </motion.div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline" onClick={() => setMockupView('desktop')}>
-                <Laptop className="w-4 h-4 mr-2" />
-                Desktop Preview
-              </Button>
-              <Button variant="outline" onClick={() => setMockupView('mobile')}>
-                <Smartphone className="w-4 h-4 mr-2" />
-                Mobile Preview
-              </Button>
-            </div>
+            <Button variant="outline" onClick={onPreview} className="w-full">
+              <Eye className="w-4 h-4 mr-2" />
+              Mockup Preview
+            </Button>
 
             <div className="grid grid-cols-3 gap-4">
               <Card><CardContent className="p-4 text-center">
@@ -230,14 +213,6 @@ export function WallpaperDetail({
           </div>
         </div>
       </div>
-
-      {mockupView && (
-        <MockupPreview
-          wallpaperUrl={mainImage}
-          mockupType={mockupView}
-          onClose={() => setMockupView(null)}
-        />
-      )}
     </div>
   );
 }
