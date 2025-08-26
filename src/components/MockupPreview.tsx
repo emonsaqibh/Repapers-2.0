@@ -31,7 +31,8 @@ export function MockupPreview({ wallpaperUrl, mockupType, onClose }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+      // This line has been changed from z-50 to z-[100]
+      className="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] p-4"
       onClick={onClose}
     >
       <div 
