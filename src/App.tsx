@@ -4,7 +4,6 @@ import { WallpaperGallery } from './components/WallpaperGallery';
 import { Header } from './components/Header';
 import { WallpaperDetail } from './components/WallpaperDetail';
 import { UserProfile } from './components/UserProfile';
-import { PreviewPage } from './components/PreviewPage';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -102,7 +101,7 @@ export default function App() {
     setCurrentView('profile');
   };
 
-  const renderMainContent = () => {
+  const renderCurrentView = () => {
     switch (currentView) {
       case 'gallery':
         return (
@@ -123,7 +122,6 @@ export default function App() {
             onToggleFavorite={toggleFavorite}
             isFavorite={selectedWallpaper ? favorites.includes(selectedWallpaper.id) : false}
             isAuthenticated={isAuthenticated}
-            onPreview={() => setCurrentView('preview')}
           />
         );
       case 'profile':
@@ -139,41 +137,36 @@ export default function App() {
             onLogout={handleLogout}
           />
         );
-      case 'preview':
-        return (
-          <PreviewPage
-            wallpaper={selectedWallpaper}
-            onBack={() => setCurrentView('detail')}
-          />
-        );
       default:
         return null;
     }
   };
 
-  if (currentView === 'auth') {
+  if (!isAuthenticated && currentView !== 'gallery') {
     return <AuthScreen onLogin={handleLogin} isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />;
   }
-  
+
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300 font-geist">
-      {currentView !== 'preview' && (
-        <Header
-          isAuthenticated={isAuthenticated}
-          currentUser={currentUser}
-          isDarkMode={isDarkMode}
-          onToggleTheme={toggleTheme}
-          onLogin={() => setCurrentView('auth')}
-          onLogout={handleLogout}
-          onProfileClick={handleProfileClick}
-          onFavoritesClick={handleFavoritesClick}
-          onLogoClick={() => setCurrentView('gallery')}
-        />
-      )}
+      <Header
+        isAuthenticated={isAuthenticated}
+        currentUser={currentUser}
+        isDarkMode={isDarkMode}
+        onToggleTheme={toggleTheme}
+        onLogin={() => setCurrentView('auth')}
+        onLogout={handleLogout}
+        onProfileClick={handleProfileClick}
+        onFavoritesClick={handleFavoritesClick}
+        onLogoClick={() => setCurrentView('gallery')}
+      />
       
-      <main className={currentView !== 'preview' ? 'pt-16' : ''}>
-        {renderMainContent()}
-      </main>
+      {currentView === 'auth' ? (
+        <AuthScreen onLogin={handleLogin} isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
+      ) : (
+        <main className="pt-16">
+          {renderCurrentView()}
+        </main>
+      )}
     </div>
   );
 }
