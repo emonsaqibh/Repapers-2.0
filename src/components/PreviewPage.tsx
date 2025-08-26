@@ -3,22 +3,23 @@ import { Button } from './ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
-// SVG for the MacBook-style frame
+// A simpler, more robust SVG for the MacBook-style frame
 const MacbookFrame = () => (
-    <svg width="100%" height="100%" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-        <path d="M0 847.252V65.8333C0 41.534 19.9381 21.5952 44.2381 21.5952H1395.76C1420.06 21.5952 1440 41.534 1440 65.8333V847.252C1440 859.34 1429.98 869.31 1417.89 869.31H1202.9C1199.9 869.31 1197.16 871.252 1196.26 874.071L1146.33 900H293.671L243.738 874.071C242.842 871.252 240.097 869.31 237.097 869.31H22.1053C10.0179 869.31 0 859.34 0 847.252Z" fill="#e5e7eb"/>
-        <path d="M44.2381 31.5952H1395.76C1414.54 31.5952 1430 47.0519 1430 65.8333V820H10V65.8333C10 47.0519 25.4567 31.5952 44.2381 31.5952Z" fill="#1f2937"/>
-        <path d="M660 38.5952H780C784.418 38.5952 788 42.1771 788 46.5952V47.5952C788 48.1475 787.552 48.5952 787 48.5952H653C652.448 48.5952 652 48.1475 652 47.5952V46.5952C652 42.1771 655.582 38.5952 660 38.5952Z" fill="#374151"/>
+    <svg width="100%" height="100%" viewBox="0 0 1024 640" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <rect x="0" y="0" width="1024" height="600" rx="30" fill="#111827"/>
+        <path d="M162 630L262 600H762L862 630H162Z" fill="#d1d5db"/>
+        <rect x="472" y="12" width="80" height="10" rx="5" fill="#222"/>
     </svg>
 );
 
-// Improved SVG for the iPhone-style frame
+// A simpler, more robust SVG for the iPhone-style frame
 const IphoneFrame = () => (
     <svg width="100%" height="100%" viewBox="0 0 428 880" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
         <rect x="4" y="4" width="420" height="872" rx="50" fill="#1f2937" stroke="#6b7280" stroke-width="8"/>
         <path d="M151 20H277C286.941 20 295 28.0589 295 38V42C295 43.1046 294.105 44 293 44H135C133.895 44 133 43.1046 133 42V38C133 28.0589 141.059 20 151 20Z" fill="#111827"/>
     </svg>
 );
+
 
 export function PreviewPage({ wallpaper, onBack }) {
   if (!wallpaper) {
@@ -50,42 +51,40 @@ export function PreviewPage({ wallpaper, onBack }) {
         <div className="w-[150px]"></div>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center justify-items-center min-h-screen pt-24 pb-8 px-4">
+      <div className="flex flex-col lg:flex-row items-center justify-center gap-12 min-h-screen w-full p-8 pt-24">
+        
         {/* Desktop Mockup */}
-        <div className="flex flex-col items-center justify-center gap-4 w-full">
+        <div className="flex flex-col items-center gap-4 w-full max-w-3xl">
           <h2 className="text-lg font-medium text-muted-foreground">Desktop</h2>
-          <div className="relative w-full max-w-2xl">
-            <div className="aspect-[16/10] relative">
-              <ImageWithFallback
-                src={mainImage}
-                alt="Desktop Preview"
-                className="absolute w-full h-full object-cover"
-                style={{ padding: '2.5% 3.5% 9.5% 3.5%' }}
-              />
-              <div className="absolute inset-0 w-full h-full pointer-events-none">
-                <MacbookFrame />
-              </div>
+          <div className="relative w-full" style={{ aspectRatio: '1024/640' }}>
+            <ImageWithFallback
+              src={mainImage}
+              alt="Desktop Preview"
+              className="absolute top-0 left-0 w-full h-full object-cover"
+              style={{ padding: '2.5% 3.5% 9.5% 3.5%' }}
+            />
+            <div className="absolute inset-0 w-full h-full pointer-events-none">
+              <MacbookFrame />
             </div>
           </div>
         </div>
 
         {/* Mobile Mockup */}
-        <div className="flex flex-col items-center justify-center gap-4 w-full">
+        <div className="flex flex-col items-center gap-4">
           <h2 className="text-lg font-medium text-muted-foreground">Mobile</h2>
-          <div className="relative w-[250px] sm:w-[300px]">
-            <div className="aspect-[9/19.5] relative">
-              <ImageWithFallback
-                src={mainImage}
-                alt="Mobile Preview"
-                className="absolute w-full h-full object-cover rounded-[10%]"
-                style={{ padding: '3.5%' }}
-              />
-              <div className="absolute inset-0 w-full h-full pointer-events-none">
-                <IphoneFrame />
-              </div>
+          <div className="relative h-[60vh] max-h-[600px]" style={{ aspectRatio: '428/880' }}>
+            <ImageWithFallback
+              src={mainImage}
+              alt="Mobile Preview"
+              className="absolute top-0 left-0 w-full h-full object-cover rounded-[10%]"
+              style={{ padding: '3.5%' }}
+            />
+            <div className="absolute inset-0 w-full h-full pointer-events-none">
+              <IphoneFrame />
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
