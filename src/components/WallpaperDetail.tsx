@@ -6,7 +6,15 @@ import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 import { Separator } from './ui/separator';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { 
-  ArrowLeft, Download, Heart, Share2, Eye, Calendar, Monitor, User, Check, Smartphone, Laptop 
+  ArrowLeft, 
+  Download, 
+  Heart, 
+  Share2, 
+  Eye, 
+  Calendar, 
+  Monitor, 
+  User,
+  Check
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -15,8 +23,7 @@ export function WallpaperDetail({
   onBack, 
   onToggleFavorite, 
   isFavorite, 
-  isAuthenticated,
-  onPreview
+  isAuthenticated 
 }) {
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
@@ -88,8 +95,6 @@ export function WallpaperDetail({
     }
   };
   
-  const relatedWallpapers = [];
-
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
@@ -120,11 +125,6 @@ export function WallpaperDetail({
                 </CardContent>
               </Card>
             </motion.div>
-
-            <Button variant="outline" onClick={onPreview} className="w-full">
-              <Eye className="w-4 h-4 mr-2" />
-              Mockup Preview
-            </Button>
 
             <div className="grid grid-cols-3 gap-4">
               <Card><CardContent className="p-4 text-center">
