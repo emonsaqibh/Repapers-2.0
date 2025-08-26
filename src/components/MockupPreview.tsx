@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react'; // <-- useState has been added here
 import ReactDOM from 'react-dom';
 import { Button } from './ui/button';
 import { X } from 'lucide-react';
@@ -64,10 +64,8 @@ export function MockupPreview(props) {
 
     useEffect(() => {
         setIsMounted(true);
-        // Add a class to the body to prevent scrolling when the modal is open
         document.body.classList.add('overflow-hidden');
         
-        // Cleanup function to remove the class when the modal is closed
         return () => document.body.classList.remove('overflow-hidden');
     }, []);
 
@@ -75,7 +73,6 @@ export function MockupPreview(props) {
         return null;
     }
 
-    // Use ReactDOM.createPortal to render the content into the body
     return ReactDOM.createPortal(
         <MockupContent {...props} />,
         document.body
