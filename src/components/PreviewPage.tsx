@@ -34,7 +34,7 @@ export function PreviewPage({ wallpaper, onBack }) {
     );
   }
   
-  // Use the highest resolution available for the best preview quality
+  // Use a high-resolution image for the best preview quality
   const mainImage = wallpaper.download_options?.[wallpaper.download_options.length - 1]?.path || '';
 
   return (
@@ -47,15 +47,15 @@ export function PreviewPage({ wallpaper, onBack }) {
          <h1 className="text-xl font-bold text-center text-foreground bg-background/80 backdrop-blur-sm px-4 py-2 rounded-lg">
             Mockup Preview
         </h1>
-        {/* Empty div for spacing */}
-        <div></div>
+        {/* Empty div to balance the header */}
+        <div style={{ width: '150px' }}></div>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center justify-items-center min-h-screen">
         {/* Desktop Mockup */}
         <div className="flex flex-col items-center justify-center gap-4 w-full h-full pt-16 lg:pt-0">
           <h2 className="text-lg font-medium text-muted-foreground">Desktop</h2>
-          <div className="relative w-full max-w-4xl aspect-[16/10]">
+          <div className="relative w-full max-w-4xl aspect-video">
             <ImageWithFallback
               src={mainImage}
               className="absolute inset-0 w-full h-full object-cover"
