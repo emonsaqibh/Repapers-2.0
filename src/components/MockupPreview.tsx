@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from './ui/button';
 import { X } from 'lucide-react';
-import { motion } from 'motion/react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
 // SVG for the iPhone-style frame
@@ -27,11 +26,8 @@ export function MockupPreview({ wallpaperUrl, mockupType, onClose }) {
     : { height: '85vh', maxWidth: '400px' };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      // This line has been changed from z-50 to z-[100]
+    // We've replaced 'motion.div' with a regular 'div' to remove animations
+    <div
       className="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] p-4"
       onClick={onClose}
     >
@@ -57,6 +53,6 @@ export function MockupPreview({ wallpaperUrl, mockupType, onClose }) {
       >
         <X className="w-6 h-6" />
       </Button>
-    </motion.div>
+    </div>
   );
 }
