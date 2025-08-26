@@ -16,7 +16,8 @@
       "category": "nature",
       "tags": [
         "nature"
-      ]
+      ],
+      "thumbnail": "/images/uploads/screenshot-2025-08-26-115934.png"
     },
     {
       "id": "002",
@@ -34,7 +35,8 @@
       "category": "character",
       "tags": [
         "character"
-      ]
+      ],
+      "thumbnail": "/images/uploads/screenshot-2025-08-26-120029.png"
     },
     {
       "download_options": [
@@ -52,7 +54,8 @@
       "category": "AI Generated",
       "tags": [
         "ai"
-      ]
+      ],
+      "thumbnail": "/images/uploads/screenshot-2025-08-26-120144.png"
     },
     {
       "download_options": [
@@ -70,7 +73,8 @@
       "category": "nature",
       "tags": [
         "landscape"
-      ]
+      ],
+      "thumbnail": "/images/uploads/screenshot-2025-08-26-120117.png"
     }
   ]
 }
