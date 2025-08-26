@@ -75,6 +75,29 @@
         "landscape"
       ],
       "thumbnail": "/images/uploads/screenshot-2025-08-26-120117.png"
+    },
+    {
+      "id": "005",
+      "title": "MeshGrad01",
+      "author": {
+        "name": "Reaper",
+        "title": "Designer"
+      },
+      "thumbnail": "/images/uploads/paste-image-here-1.png",
+      "category": "Gradient",
+      "tags": [
+        "gradient"
+      ],
+      "download_options": [
+        {
+          "resolution": "1080p",
+          "path": "/images/uploads/paste-image-here-.png"
+        },
+        {
+          "resolution": "4K",
+          "path": "/images/uploads/paste-image-here-2.png"
+        }
+      ]
     }
   ]
 }
