@@ -96,6 +96,10 @@
         {
           "resolution": "4K",
           "path": "/images/uploads/paste-image-here-2.png"
+        },
+        {
+          "resolution": "Mobile",
+          "path": "/images/uploads/paste-image-here-44.png"
         }
       ]
     }
