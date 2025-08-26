@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { Button } from './ui/button';
 import { X } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
@@ -19,40 +20,64 @@ const DesktopFrame = () => (
   </svg>
 );
 
-export function MockupPreview({ wallpaperUrl, mockupType, onClose }) {
-  const Frame = mockupType === 'desktop' ? DesktopFrame : MobileFrame;
-  const containerStyle = mockupType === 'desktop' 
-    ? { width: '90%', maxWidth: '1200px' } 
-    : { height: '85vh', maxWidth: '400px' };
+// This is the content of our modal, which we will portal
+const MockupContent = ({ wallpaperUrl, mockupType, onClose }) => {
+    const Frame = mockupType === 'desktop' ? DesktopFrame : MobileFrame;
+    const containerStyle = mockupType === 'desktop' 
+        ? { width: '90%', maxWidth: '1200px' } 
+        : { height: '85vh', maxWidth: '400px' };
 
-  return (
-    // We've replaced 'motion.div' with a regular 'div' to remove animations
-    <div
-      className="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] p-4"
-      onClick={onClose}
-    >
-      <div 
-        className="relative" 
-        style={containerStyle}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <ImageWithFallback
-          src={wallpaperUrl}
-          className="absolute inset-0 w-full h-full object-cover"
-          style={mockupType === 'desktop' ? { padding: '1.2%' } : { padding: '3%' }}
-        />
-        <div className="absolute inset-0 w-full h-full pointer-events-none">
-          <Frame />
+    return (
+        <div
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] p-4"
+            onClick={onClose}
+        >
+            <div 
+                className="relative" 
+                style={containerStyle}
+                onClick={(e) => e.stopPropagation()}
+            >
+                <ImageWithFallback
+                    src={wallpaperUrl}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={mockupType === 'desktop' ? { padding: '1.2%' } : { padding: '3%' }}
+                />
+                <div className="absolute inset-0 w-full h-full pointer-events-none">
+                    <Frame />
+                </div>
+            </div>
+            <Button
+                variant="ghost"
+                size="sm"
+                onClick={onClose}
+                className="absolute top-4 right-4 z-[110] text-white hover:bg-white/20"
+            >
+                <X className="w-6 h-6" />
+            </Button>
         </div>
-      </div>
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={onClose}
-        className="absolute top-4 right-4 z-20 text-white hover:bg-white/20"
-      >
-        <X className="w-6 h-6" />
-      </Button>
-    </div>
-  );
+    );
+};
+
+// This is the main component that creates the portal
+export function MockupPreview(props) {
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+        // Add a class to the body to prevent scrolling when the modal is open
+        document.body.classList.add('overflow-hidden');
+        
+        // Cleanup function to remove the class when the modal is closed
+        return () => document.body.classList.remove('overflow-hidden');
+    }, []);
+
+    if (!isMounted) {
+        return null;
+    }
+
+    // Use ReactDOM.createPortal to render the content into the body
+    return ReactDOM.createPortal(
+        <MockupContent {...props} />,
+        document.body
+    );
 }
