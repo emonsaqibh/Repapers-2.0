@@ -1,10 +1,6 @@
 {
   "categories": [
     {
-      "id": "exclusive",
-      "name": "Exclusive"
-    },
-    {
       "id": "nature",
       "name": "Nature"
     },
@@ -17,16 +13,20 @@
       "name": "Character"
     },
     {
-      "id": "Anime",
-      "name": "Anime"
+      "id": "exclusive",
+      "name": "Exclusive"
     },
     {
-      "id": "AI Generated",
-      "name": "AI generated"
+      "id": "ai-generated",
+      "name": "AI Generated"
     },
     {
       "id": "gradient",
       "name": "Gradient"
+    },
+    {
+      "id": "anime",
+      "name": "Anime"
     }
   ]
 }
