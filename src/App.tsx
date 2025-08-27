@@ -187,4 +187,8 @@ export default function App() {
       )}
       
       <main className={currentView !== 'preview' ? 'pt-16' : ''}>
-        {
+        {renderCurrentView()}
+      </main>
+    </div>
+  );
+}
