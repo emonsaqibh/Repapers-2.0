@@ -1,0 +1,13 @@
+{
+  "packs": [
+    {
+      "id": "minimalist-dreams-pack",
+      "title": "Minimalist Dreams Pack",
+      "description": "A curated collection of the best minimalist wallpapers.",
+      "cover_image": "/images/uploads/minimalist-cover.jpg",
+      "wallpaper_ids": [
+        "minimalist-sunset"
+      ]
+    }
+  ]
+}
