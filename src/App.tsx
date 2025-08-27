@@ -15,11 +15,9 @@ export default function App() {
   const [favorites, setFavorites] = useState([]);
   const [wallpapers, setWallpapers] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [packs, setPacks] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    // This useEffect for reading from localStorage is correct and remains unchanged
     const storedAuth = localStorage.getItem('isAuthenticated');
     const storedUser = localStorage.getItem('currentUser');
     const storedTheme = localStorage.getItem('isDarkMode');
@@ -38,21 +36,15 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // This useEffect for fetching data is now safer
     fetch('/wallpapers.json')
       .then(res => res.json())
-      .then(data => setWallpapers(data.wallpapers || [])) // Safety check
+      .then(data => setWallpapers(data.wallpapers || []))
       .catch(error => console.error('Error fetching wallpapers:', error));
 
     fetch('/categories.json')
       .then(res => res.json())
-      .then(data => setCategories(data.categories || [])) // Safety check
+      .then(data => setCategories(data.categories || []))
       .catch(error => console.error('Error fetching categories:', error));
-
-    fetch('/packs.json')
-      .then(res => res.json())
-      .then(data => setPacks(data.packs || [])) // Safety check
-      .catch(error => console.error('Error fetching packs:', error));
   }, []);
 
   useEffect(() => {
@@ -117,7 +109,6 @@ export default function App() {
           <WallpaperGallery
             wallpapers={wallpapers}
             categories={categories}
-            packs={packs}
             onWallpaperSelect={handleWallpaperSelect}
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
