@@ -19,6 +19,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
+    // This useEffect for reading from localStorage is correct and remains unchanged
     const storedAuth = localStorage.getItem('isAuthenticated');
     const storedUser = localStorage.getItem('currentUser');
     const storedTheme = localStorage.getItem('isDarkMode');
@@ -37,19 +38,20 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    // This useEffect for fetching data is now safer
     fetch('/wallpapers.json')
       .then(res => res.json())
-      .then(data => setWallpapers(data.wallpapers || []))
+      .then(data => setWallpapers(data.wallpapers || [])) // Safety check
       .catch(error => console.error('Error fetching wallpapers:', error));
 
     fetch('/categories.json')
       .then(res => res.json())
-      .then(data => setCategories(data.categories || []))
+      .then(data => setCategories(data.categories || [])) // Safety check
       .catch(error => console.error('Error fetching categories:', error));
 
     fetch('/packs.json')
       .then(res => res.json())
-      .then(data => setPacks(data.packs || []))
+      .then(data => setPacks(data.packs || [])) // Safety check
       .catch(error => console.error('Error fetching packs:', error));
   }, []);
 
@@ -151,7 +153,7 @@ export default function App() {
     }
   };
 
-  if (!isAuthenticated && currentView !== 'gallery') {
+  if (!isAuthenticated && currentView !== 'gallery' && currentView !== 'auth') {
     return <AuthScreen onLogin={handleLogin} isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />;
   }
 
