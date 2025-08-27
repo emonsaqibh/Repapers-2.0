@@ -17,7 +17,10 @@
       "tags": [
         "nature"
       ],
-      "thumbnail": "/images/uploads/screenshot-2025-08-26-115934.png"
+      "thumbnail": "/images/uploads/screenshot-2025-08-26-115934.png",
+      "categories": [
+        "nature"
+      ]
     },
     {
       "id": "002",
@@ -36,7 +39,10 @@
       "tags": [
         "character"
       ],
-      "thumbnail": "/images/uploads/screenshot-2025-08-26-120029.png"
+      "thumbnail": "/images/uploads/screenshot-2025-08-26-120029.png",
+      "categories": [
+        "character"
+      ]
     },
     {
       "download_options": [
@@ -55,7 +61,11 @@
       "tags": [
         "ai"
       ],
-      "thumbnail": "/images/uploads/screenshot-2025-08-26-120144.png"
+      "thumbnail": "/images/uploads/screenshot-2025-08-26-120144.png",
+      "categories": [
+        "ai-generated",
+        "exclusive"
+      ]
     },
     {
       "download_options": [
@@ -74,7 +84,11 @@
       "tags": [
         "landscape"
       ],
-      "thumbnail": "/images/uploads/screenshot-2025-08-26-120117.png"
+      "thumbnail": "/images/uploads/screenshot-2025-08-26-120117.png",
+      "categories": [
+        "nature",
+        "exclusive"
+      ]
     },
     {
       "id": "005",
@@ -101,6 +115,9 @@
           "resolution": "Mobile",
           "path": "/images/uploads/paste-image-here-44.png"
         }
+      ],
+      "categories": [
+        "gradient"
       ]
     }
   ]
