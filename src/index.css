@@ -5249,3 +5249,29 @@ html {
     opacity: 0;
   }
 }
+.exclusive-button {
+  background-color: #f59e0b; /* A gold-like color */
+  color: #ffffff;
+  border-color: #f59e0b;
+  box-shadow: 0 0 5px #f59e0b, 0 0 10px #f59e0b, 0 0 15px #f59e0b;
+  animation: glowing-animation 2s infinite ease-in-out;
+}
+
+.dark .exclusive-button {
+  background-color: #fcd34d;
+  color: #111827;
+  border-color: #fcd34d;
+  box-shadow: 0 0 8px #fcd34d, 0 0 16px #fcd34d, 0 0 24px #fcd34d;
+}
+
+@keyframes glowing-animation {
+  0% { box-shadow: 0 0 5px #f59e0b; }
+  50% { box-shadow: 0 0 20px #f59e0b; }
+  100% { box-shadow: 0 0 5px #f59e0b; }
+}
+
+.dark @keyframes glowing-animation {
+  0% { box-shadow: 0 0 8px #fcd34d; }
+  50% { box-shadow: 0 0 25px #fcd34d; }
+  100% { box-shadow: 0 0 8px #fcd34d; }
+}
