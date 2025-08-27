@@ -4,6 +4,7 @@ import { WallpaperGallery } from './components/WallpaperGallery';
 import { Header } from './components/Header';
 import { WallpaperDetail } from './components/WallpaperDetail';
 import { UserProfile } from './components/UserProfile';
+import { PreviewPage } from './components/PreviewPage';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -19,7 +20,6 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    // This useEffect for reading from localStorage is correct and remains unchanged
     const storedAuth = localStorage.getItem('isAuthenticated');
     const storedUser = localStorage.getItem('currentUser');
     const storedTheme = localStorage.getItem('isDarkMode');
@@ -38,20 +38,19 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // This useEffect for fetching data is now safer
     fetch('/wallpapers.json')
       .then(res => res.json())
-      .then(data => setWallpapers(data.wallpapers || [])) // Safety check
+      .then(data => setWallpapers(data.wallpapers || []))
       .catch(error => console.error('Error fetching wallpapers:', error));
 
     fetch('/categories.json')
       .then(res => res.json())
-      .then(data => setCategories(data.categories || [])) // Safety check
+      .then(data => setCategories(data.categories || []))
       .catch(error => console.error('Error fetching categories:', error));
 
     fetch('/packs.json')
       .then(res => res.json())
-      .then(data => setPacks(data.packs || [])) // Safety check
+      .then(data => setPacks(data.packs || []))
       .catch(error => console.error('Error fetching packs:', error));
   }, []);
 
@@ -133,6 +132,7 @@ export default function App() {
             onToggleFavorite={toggleFavorite}
             isFavorite={selectedWallpaper ? favorites.includes(selectedWallpaper.id) : false}
             isAuthenticated={isAuthenticated}
+            onPreview={() => setCurrentView('preview')}
           />
         );
       case 'profile':
@@ -148,38 +148,43 @@ export default function App() {
             onLogout={handleLogout}
           />
         );
+      case 'preview':
+        return (
+          <PreviewPage
+            wallpaper={selectedWallpaper}
+            onBack={() => setCurrentView('detail')}
+          />
+        );
       default:
         return null;
     }
   };
 
-  if (!isAuthenticated && currentView !== 'gallery') {
+  if (!isAuthenticated && !['gallery', 'auth'].includes(currentView)) {
+    return <AuthScreen onLogin={handleLogin} isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />;
+  }
+  
+  if (currentView === 'auth') {
     return <AuthScreen onLogin={handleLogin} isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />;
   }
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300 font-geist">
-      <Header
-        isAuthenticated={isAuthenticated}
-        currentUser={currentUser}
-        isDarkMode={isDarkMode}
-        onToggleTheme={toggleTheme}
-        onLogin={() => setCurrentView('auth')}
-        onLogout={handleLogout}
-        onProfileClick={handleProfileClick}
-        onFavoritesClick={handleFavoritesClick}
-        onLogoClick={() => setCurrentView('gallery')}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-      
-      {currentView === 'auth' ? (
-        <AuthScreen onLogin={handleLogin} isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
-      ) : (
-        <main className="pt-16">
-          {renderCurrentView()}
-        </main>
+      {currentView !== 'preview' && (
+        <Header
+          isAuthenticated={isAuthenticated}
+          currentUser={currentUser}
+          isDarkMode={isDarkMode}
+          onToggleTheme={toggleTheme}
+          onLogin={() => setCurrentView('auth')}
+          onLogout={handleLogout}
+          onProfileClick={handleProfileClick}
+          onFavoritesClick={handleFavoritesClick}
+          onLogoClick={() => setCurrentView('gallery')}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
       )}
-    </div>
-  );
-}
+      
+      <main className={currentView !== 'preview' ? 'pt-16' : ''}>
+        {
