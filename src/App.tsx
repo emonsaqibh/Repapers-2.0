@@ -15,6 +15,7 @@ export default function App() {
   const [favorites, setFavorites] = useState([]);
   const [wallpapers, setWallpapers] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(''); // New state for search
 
   useEffect(() => {
     const storedAuth = localStorage.getItem('isAuthenticated');
@@ -37,12 +38,12 @@ export default function App() {
   useEffect(() => {
     fetch('/wallpapers.json')
       .then(res => res.json())
-      .then(data => setWallpapers(data.wallpapers))
+      .then(data => setWallpapers(data.wallpapers || []))
       .catch(error => console.error('Error fetching wallpapers:', error));
 
     fetch('/categories.json')
       .then(res => res.json())
-      .then(data => setCategories(data.categories))
+      .then(data => setCategories(data.categories || []))
       .catch(error => console.error('Error fetching categories:', error));
   }, []);
 
@@ -112,6 +113,7 @@ export default function App() {
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
             isAuthenticated={isAuthenticated}
+            searchQuery={searchQuery} // Pass search query down
           />
         );
       case 'detail':
@@ -158,6 +160,8 @@ export default function App() {
         onProfileClick={handleProfileClick}
         onFavoritesClick={handleFavoritesClick}
         onLogoClick={() => setCurrentView('gallery')}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
       />
       
       {currentView === 'auth' ? (
