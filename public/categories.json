@@ -1,6 +1,10 @@
 {
   "categories": [
     {
+      "id": "exclusive",
+      "name": "Exclusive"
+    },
+    {
       "id": "nature",
       "name": "Nature"
     },
